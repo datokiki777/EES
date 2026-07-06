@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#18392f">
+  <meta name="description" content="მუშების 90/180 დღის აღრიცხვა">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>EES — დღეების კონტროლი</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">E</span><div><strong>EES</strong><small>დღეების კონტროლი</small></div></div>
+    <button id="installBtn" class="ghost hidden">აპის დაყენება</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">90 / 180 წესი</p><h1>ვინ როდის უნდა წავიდეს?</h1><p>მუშების შესვლა, გასვლა და დაბრუნების პირველი შესაძლო თარიღი — ზუსტად დღეებით.</p></div>
+      <button id="addWorkerBtn" class="primary">＋ მუშის დამატება</button>
+    </section>
+
+    <section class="stats" aria-label="შეჯამება">
+      <article><span>სულ მუშა</span><strong id="totalCount">0</strong></article>
+      <article><span>ახლა ქვეყანაში</span><strong id="insideCount">0</strong></article>
+      <article class="warn"><span>გასვლა ≤ 14 დღე</span><strong id="urgentCount">0</strong></article>
+    </section>
+
+    <section class="toolbar">
+      <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="მოძებნე სახელი…"></label>
+      <div class="tools">
+        <button id="backupBtn" class="ghost">Backup JSON</button>
+        <button id="restoreBtn" class="ghost">Restore JSON</button>
+        <input id="restoreInput" type="file" accept="application/json,.json" hidden>
+      </div>
+    </section>
+
+    <section id="workerList" class="worker-list"></section>
+    <section id="emptyState" class="empty">
+      <div class="empty-icon">◎</div><h2>ჯერ მუშა არ არის დამატებული</h2><p>დაამატე პირველი მუშა და მიუთითე ჩამოსვლის დღე.</p>
+      <button class="primary" data-action="add-worker">მუშის დამატება</button>
+    </section>
+  </main>
+
+  <dialog id="workerDialog">
+    <form id="workerForm" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">ახალი ჩანაწერი</p><h2 id="workerDialogTitle">მუშის დამატება</h2></div><button type="button" class="icon-btn" data-close>×</button></div>
+      <input id="workerId" type="hidden">
+      <label>სახელი და გვარი<input id="workerName" required maxlength="100" autocomplete="off" placeholder="მაგ. გიორგი მაისურაძე"></label>
+      <label>ჩამოსვლის თარიღი<input id="entryDate" required type="date"></label>
+      <p class="hint">ჩამოსვლის დღე ითვლება პირველ დღედ.</p>
+      <div class="dialog-actions"><button type="button" class="ghost" data-close>გაუქმება</button><button class="primary" type="submit">შენახვა</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="exitDialog">
+    <form id="exitForm" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">გასვლის დაფიქსირება</p><h2 id="exitWorkerName"></h2></div><button type="button" class="icon-btn" data-close>×</button></div>
+      <input id="exitWorkerId" type="hidden"><input id="exitStayId" type="hidden">
+      <label>გასვლის თარიღი<input id="exitDate" required type="date"></label>
+      <p class="hint">გასვლის დღეც ქვეყანაში ყოფნის დღედ ითვლება.</p>
+      <div class="dialog-actions"><button type="button" class="ghost" data-close>გაუქმება</button><button class="primary" type="submit">დადასტურება</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="historyDialog" class="wide-dialog">
+    <div class="dialog-head"><div><p class="eyebrow">ისტორია</p><h2 id="historyWorkerName"></h2></div><button type="button" class="icon-btn" data-close>×</button></div>
+    <div id="historyList"></div>
+  </dialog>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
