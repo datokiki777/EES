@@ -91,7 +91,7 @@ function openWorker(workerId=''){
   $('#workerName').value=worker?.name||'';
   $('#workerName').readOnly=!!worker;
   $('#entryDate').value=today();
-  $('#workerDialogTitle').textContent=worker?`${worker.name} — შესვლა`:'მუშის დამატება';
+  $('#workerDialogTitle').textContent=worker?`${worker.name} — შესვლა`:'პიროვნების დამატება';
   els.workerDialog.showModal();
 }
 function closeDialogs(){document.querySelectorAll('dialog[open]').forEach(d=>d.close())}
@@ -125,7 +125,7 @@ document.addEventListener('click',async e=>{
     $('#exitWorkerId').value=id;$('#exitStayId').value=stay.id;$('#exitWorkerName').textContent=worker.name;$('#exitDate').min=stay.entry;$('#exitDate').max=max;$('#exitDate').value=today()>max?max:today()<stay.entry?stay.entry:today();els.exitDialog.showModal();
   }
   if(action==='delete'){
-    const worker=workers.find(w=>w.id===id);if(confirm(`წაიშალოს ${worker.name} და მისი სრული ისტორია?`)){await remove(id);workers=workers.filter(w=>w.id!==id);render();toast('მუშა წაიშალა')}
+    const worker=workers.find(w=>w.id===id);if(confirm(`წაიშალოს ${worker.name} და მისი სრული ისტორია?`)){await remove(id);workers=workers.filter(w=>w.id!==id);render();toast('პიროვნება წაიშალა')}
   }
   if(action==='history')showHistory(id);
 });

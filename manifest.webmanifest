@@ -1,7 +1,7 @@
 {
   "name":"EES — დღეების კონტროლი",
   "short_name":"EES",
-  "description":"მუშების 90/180 დღის აღრიცხვა",
+  "description":"პიროვნებების 90/180 დღის აღრიცხვა",
   "start_url":"./",
   "display":"standalone",
   "background_color":"#f5f4ed",

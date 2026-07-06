@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#18392f">
-  <meta name="description" content="მუშების 90/180 დღის აღრიცხვა">
+  <meta name="description" content="პიროვნებების 90/180 დღის აღრიცხვა">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
@@ -18,12 +18,12 @@
 
   <main>
     <section class="hero">
-      <div><p class="eyebrow">90 / 180 წესი</p><h1>ვინ როდის უნდა წავიდეს?</h1><p>მუშების შესვლა, გასვლა და დაბრუნების პირველი შესაძლო თარიღი — ზუსტად დღეებით.</p></div>
-      <button id="addWorkerBtn" class="primary">＋ მუშის დამატება</button>
+      <div><p class="eyebrow">90 / 180 წესი</p><h1>ვინ როდის უნდა წავიდეს?</h1><p>პიროვნებების შესვლა, გასვლა და დაბრუნების პირველი შესაძლო თარიღი — ზუსტად დღეებით.</p></div>
+      <button id="addWorkerBtn" class="primary">＋ პიროვნების დამატება</button>
     </section>
 
     <section class="stats" aria-label="შეჯამება">
-      <article><span>სულ მუშა</span><strong id="totalCount">0</strong></article>
+      <article><span>სულ პიროვნება</span><strong id="totalCount">0</strong></article>
       <article><span>ახლა ქვეყანაში</span><strong id="insideCount">0</strong></article>
       <article class="warn"><span>გასვლა ≤ 14 დღე</span><strong id="urgentCount">0</strong></article>
     </section>
@@ -39,14 +39,14 @@
 
     <section id="workerList" class="worker-list"></section>
     <section id="emptyState" class="empty">
-      <div class="empty-icon">◎</div><h2>ჯერ მუშა არ არის დამატებული</h2><p>დაამატე პირველი მუშა და მიუთითე ჩამოსვლის დღე.</p>
-      <button class="primary" data-action="add-worker">მუშის დამატება</button>
+      <div class="empty-icon">◎</div><h2>ჯერ პიროვნება არ არის დამატებული</h2><p>დაამატე პირველი პიროვნება და მიუთითე ჩამოსვლის დღე.</p>
+      <button class="primary" data-action="add-worker">პიროვნების დამატება</button>
     </section>
   </main>
 
   <dialog id="workerDialog">
     <form id="workerForm" method="dialog">
-      <div class="dialog-head"><div><p class="eyebrow">ახალი ჩანაწერი</p><h2 id="workerDialogTitle">მუშის დამატება</h2></div><button type="button" class="icon-btn" data-close>×</button></div>
+      <div class="dialog-head"><div><p class="eyebrow">ახალი ჩანაწერი</p><h2 id="workerDialogTitle">პიროვნების დამატება</h2></div><button type="button" class="icon-btn" data-close>×</button></div>
       <input id="workerId" type="hidden">
       <label>სახელი და გვარი<input id="workerName" required maxlength="100" autocomplete="off" placeholder="მაგ. გიორგი მაისურაძე"></label>
       <label>ჩამოსვლის თარიღი<input id="entryDate" required type="date"></label>
