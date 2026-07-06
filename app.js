@@ -5,6 +5,7 @@ const DB_VERSION=1;
 const STORE='workers';
 let workers=[];
 let deferredInstall=null;
+let waitingServiceWorker=null;
 
 const $=s=>document.querySelector(s);
 const els={list:$('#workerList'),empty:$('#emptyState'),total:$('#totalCount'),inside:$('#insideCount'),urgent:$('#urgentCount'),search:$('#searchInput'),workerDialog:$('#workerDialog'),workerForm:$('#workerForm'),exitDialog:$('#exitDialog'),exitForm:$('#exitForm'),historyDialog:$('#historyDialog'),toast:$('#toast')};
@@ -148,5 +149,32 @@ $('#restoreInput').addEventListener('change',async e=>{
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('#installBtn').classList.remove('hidden')});
 $('#installBtn').addEventListener('click',async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('#installBtn').classList.add('hidden')});
 
-async function init(){try{workers=await getAll();render()}catch(err){console.error(err);toast('მონაცემთა ბაზა ვერ გაიხსნა')}if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(console.error)}
+function offerUpdate(worker){
+  if(!worker||!navigator.serviceWorker.controller)return;
+  waitingServiceWorker=worker;
+  if(!$('#updateDialog').open)$('#updateDialog').showModal();
+}
+$('#laterUpdateBtn').addEventListener('click',()=>$('#updateDialog').close());
+$('#applyUpdateBtn').addEventListener('click',()=>{
+  if(!waitingServiceWorker)return;
+  $('#applyUpdateBtn').disabled=true;
+  $('#applyUpdateBtn').textContent='ახლდება…';
+  waitingServiceWorker.postMessage({type:'SKIP_WAITING'});
+});
+
+async function registerServiceWorker(){
+  if(!('serviceWorker'in navigator))return;
+  const registration=await navigator.serviceWorker.register('./service-worker.js');
+  if(registration.waiting)offerUpdate(registration.waiting);
+  registration.addEventListener('updatefound',()=>{
+    const installing=registration.installing;
+    installing?.addEventListener('statechange',()=>{if(installing.state==='installed'&&navigator.serviceWorker.controller)offerUpdate(installing)});
+  });
+  let reloading=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading)return;reloading=true;location.reload()});
+  registration.update().catch(()=>{});
+  setInterval(()=>registration.update().catch(()=>{}),60*60*1000);
+}
+
+async function init(){try{workers=await getAll();render()}catch(err){console.error(err);toast('მონაცემთა ბაზა ვერ გაიხსნა')}registerServiceWorker().catch(console.error)}
 init();
